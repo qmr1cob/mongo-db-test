@@ -1,4 +1,4 @@
 #!/bin/bash
 
 # Execute your Python script
-python $APP_ROOT/app.py
+python3 $APP_ROOT/app.py
