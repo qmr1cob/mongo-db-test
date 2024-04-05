@@ -1,1 +1,4 @@
 UPGRADE_PIP_LATEST=true
+MONGO_URI=mongodb://ttf1cob:T6krof-KrLrlDiBT@si0vm03536.de.bosch.com:30000,si0vm03537.de.bosch.com:30000,si0vm03538.de.bosch.com:30000/dataxpress?replicaSet=PS_Dev&tls=true&tlsCAFile=/opt/app-root/src/BOSCH-CA-DE_pem_1.cer
+MONGO_DB=dataxpress
+MONGO_COLLECTION=dataxpress-xorder-status
