@@ -1,4 +1,4 @@
 #!/bin/bash
 
-# Execute your Python script
-python3 $APP_ROOT/app.py
+# Start the Python application
+python /tmp/src/app.py

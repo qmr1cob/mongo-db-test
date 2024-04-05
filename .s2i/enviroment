@@ -1,2 +1,1 @@
-UPGRADE_PIP_LATEST=true
-MONGODB_URI=MONGO_CONNECTION_STRING=mongodb://ttf1cob:T6krof-KrLrlDiBT@si0vm03536.de.bosch.com:30000,si0vm03537.de.bosch.com:30000,si0vm03538.de.bosch.com:30000/dataxpress?replicaSet=PS_Dev&tls=true&tlsCAFile=/opt/app-root/src/BOSCH-CA-DE_pem_1.cer
+PYTHON_VERSION=3.9
