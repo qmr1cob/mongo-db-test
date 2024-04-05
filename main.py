@@ -1,11 +1,32 @@
-from fastapi import FastAPI
+import os
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
 import uvicorn
+import asyncio
+
+
+#Set proxy environment variables
+# os.environ["http_proxy"] = "http://10.143.16.65:8080"
+# os.environ["https_proxy"] = "http://10.143.16.65:8080"
+# os.environ["HTTP_PROXY"] = "http://10.143.16.65:8080"
+# os.environ["HTTPS_PROXY"] ="http://10.143.16.65:8080"
+
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"message": "Hello, FastAPI!"}
+@app.get('/')
+def index():
+    return {'data': 'Backend is running'}
+
+
+@app.post("/post/order_info")
+async def xorder_request(request: Request):
+    # Read the request body as JSON
+    body = await request.json()
+    print("Request Body:", body)
+    # Prepare the response
+    response_data = {"msg": "The order has been placed"}
+    return JSONResponse(content=response_data)
 
 
 if __name__ == "__main__":
