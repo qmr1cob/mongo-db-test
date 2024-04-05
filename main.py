@@ -35,7 +35,10 @@ async def check_mongodb_connection():
         client.server_info()
         return JSONResponse(content={"message": "MongoDB connection successful"})
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return JSONResponse(content={"message": f"MongoDB connection failed: {str(e)}"}, status_code=500)
+
 
 # Run the FastAPI app
 if __name__ == "__main__":
