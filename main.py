@@ -18,17 +18,18 @@ MONGO_COLLECTION = os.getenv("MONGO_COLLECTION")
 proxy_url = os.getenv("PROXY_URL")
 
 # If proxy URL is provided, set up proxy for MongoDB connection
+# If proxy URL is provided, set up proxy for MongoDB connection
 if proxy_url:
     proxy_parsed = urlparse(proxy_url)
     proxy_host = proxy_parsed.hostname
     proxy_port = proxy_parsed.port
     
     # Configure MongoDB client to use proxy
-    client = MongoClient(MONGO_URI, connect=False, serverSelectionTimeoutMS=20000, socketTimeoutMS=20000)
-    client.address = (proxy_host, proxy_port)
+    client = MongoClient(MONGO_URI, connect=False, serverSelectionTimeoutMS=20000, socketTimeoutMS=20000, proxy=proxy_url)
 else:
     # Connect to MongoDB directly without proxy
     client = MongoClient(MONGO_URI)
+
 
 # Access database and collection
 db = client[MONGO_DB]
