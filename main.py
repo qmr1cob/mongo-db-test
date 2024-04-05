@@ -2,13 +2,10 @@ import os
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from pymongo import MongoClient
+from urllib.parse import urlparse
 import uvicorn
 import asyncio
 
-os.environ["http_proxy"] = "http://10.143.16.65:8080"
-os.environ["https_proxy"] = "http://10.143.16.65:8080"
-os.environ["HTTP_PROXY"] = "http://10.143.16.65:8080"
-os.environ["HTTPS_PROXY"] ="http://10.143.16.65:8080"
 # Initialize FastAPI app
 app = FastAPI()
 
@@ -17,10 +14,24 @@ MONGO_URI = os.getenv("MONGO_URI")
 MONGO_DB = os.getenv("MONGO_DB")
 MONGO_COLLECTION = os.getenv("MONGO_COLLECTION")
 
-# Connect to MongoDB
-client = MongoClient(MONGO_URI)
+# Parse proxy URL from environment variable
+proxy_url = os.getenv("PROXY_URL")
+
+# If proxy URL is provided, set up proxy for MongoDB connection
+if proxy_url:
+    proxy_parsed = urlparse(proxy_url)
+    proxy_host = proxy_parsed.hostname
+    proxy_port = proxy_parsed.port
+    
+    # Configure MongoDB client to use proxy
+    client = MongoClient(MONGO_URI, connect=False, serverSelectionTimeoutMS=20000, socketTimeoutMS=20000)
+    client.address = (proxy_host, proxy_port)
+else:
+    # Connect to MongoDB directly without proxy
+    client = MongoClient(MONGO_URI)
+
+# Access database and collection
 db = client[MONGO_DB]
-print(db)
 collection = db[MONGO_COLLECTION]
 
 # Routes
@@ -35,10 +46,7 @@ async def check_mongodb_connection():
         client.server_info()
         return JSONResponse(content={"message": "MongoDB connection successful"})
     except Exception as e:
-        import traceback
-        traceback.print_exc()
         return JSONResponse(content={"message": f"MongoDB connection failed: {str(e)}"}, status_code=500)
-
 
 # Run the FastAPI app
 if __name__ == "__main__":
