@@ -2,10 +2,15 @@ import os
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from pymongo import MongoClient
-from urllib.parse import urlparse
 import uvicorn
 import asyncio
 
+os.environ["http_proxy"] = "http://10.143.16.65:8080"
+os.environ["https_proxy"] = "http://10.143.16.65:8080"
+os.environ["HTTP_PROXY"] = "http://10.143.16.65:8080"
+os.environ["HTTPS_PROXY"] ="http://10.143.16.65:8080"
+os.environ["NO_PROXY"] = ".de.bosch.com,.bosch.com,.cluster.local,.svc,10.140.180.0/23,10.140.214.0/24,10.140.249.0/24,10.140.250.30,10.140.254.0/24,10.40.0.0/24,127.0.0.1,169.254.169.254,192.168.0.0/17,192.168.128.0/17,api-int.de3pro.osh.ipz001.internal.bosch.cloud,etcd-0.de3pro.osh.ipz001.internal.bosch.cloud,etcd-1.de3pro.osh.ipz001.internal.bosch.cloud,etcd-2.de3pro.osh.ipz001.internal.bosch.cloud,internal.bosch.cloud,localhost,osh.ipz001.internal.bosch.cloud"
+os.environ["PROXY_URL"] = "http://rb-proxy-sl.bosch.com:8080"
 # Initialize FastAPI app
 app = FastAPI()
 
@@ -14,25 +19,10 @@ MONGO_URI = os.getenv("MONGO_URI")
 MONGO_DB = os.getenv("MONGO_DB")
 MONGO_COLLECTION = os.getenv("MONGO_COLLECTION")
 
-# Parse proxy URL from environment variable
-proxy_url = os.getenv("PROXY_URL")
-
-# If proxy URL is provided, set up proxy for MongoDB connection
-# If proxy URL is provided, set up proxy for MongoDB connection
-if proxy_url:
-    proxy_parsed = urlparse(proxy_url)
-    proxy_host = proxy_parsed.hostname
-    proxy_port = proxy_parsed.port
-    
-    # Configure MongoDB client to use proxy
-    client = MongoClient(MONGO_URI, connect=False, serverSelectionTimeoutMS=20000, socketTimeoutMS=20000, proxy=proxy_url)
-else:
-    # Connect to MongoDB directly without proxy
-    client = MongoClient(MONGO_URI)
-
-
-# Access database and collection
+# Connect to MongoDB
+client = MongoClient(MONGO_URI)
 db = client[MONGO_DB]
+print(db)
 collection = db[MONGO_COLLECTION]
 
 # Routes
@@ -47,7 +37,10 @@ async def check_mongodb_connection():
         client.server_info()
         return JSONResponse(content={"message": "MongoDB connection successful"})
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         return JSONResponse(content={"message": f"MongoDB connection failed: {str(e)}"}, status_code=500)
+
 
 # Run the FastAPI app
 if __name__ == "__main__":
