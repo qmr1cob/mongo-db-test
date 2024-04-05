@@ -15,14 +15,15 @@ def main():
         print("Connected to MongoDB successfully!")
 
         # Access a specific database
-        db = client.get_database("your_database_name")
+        db = client.get_database("dataxpress")
 
         # Access a specific collection
-        collection = db.get_collection("your_collection_name")
+        collection = db.get_collection("dataxpress-xorder-status")
 
         # Example query
-        result = collection.find_one({"key": "value"})
+        result = collection.find_one({"Xorder_id": "9ac73fc9-6d16-4f66-8cc1-e44c6d7eacd2"})
         print(result)
+
 
     except Exception as e:
         print("Error connecting to MongoDB:", e)
