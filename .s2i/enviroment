@@ -1,0 +1,1 @@
+MONGODB_URI=MONGO_CONNECTION_STRING=mongodb://ttf1cob:T6krof-KrLrlDiBT@si0vm03536.de.bosch.com:30000,si0vm03537.de.bosch.com:30000,si0vm03538.de.bosch.com:30000/dataxpress?replicaSet=PS_Dev&tls=true&tlsCAFile=/usr/local/share/ca-certificates/BOSCH-CA-DE_pem_1.cer
