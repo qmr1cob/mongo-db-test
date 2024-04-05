@@ -1,8 +1,0 @@
-#!/bin/bash
-
-# Install dependencies specified in requirements.txt
-pip install --no-cache-dir -r $APP_ROOT/requirements.txt
-
-# Copy TLS CA certificate file
-cp $APP_ROOT/BOSCH-CA-DE_pem_1.cer /usr/local/share/ca-certificates/BOSCH-CA-DE_pem_1.cer
-update-ca-certificates
