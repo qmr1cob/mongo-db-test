@@ -5,6 +5,13 @@ from pymongo import MongoClient
 import uvicorn
 import asyncio
 
+
+os.environ["http_proxy"] = "http://10.143.16.65:8080"
+os.environ["https_proxy"] = "http://10.143.16.65:8080"
+os.environ["HTTP_PROXY"] = "http://10.143.16.65:8080"
+os.environ["HTTPS_PROXY"] ="http://10.143.16.65:8080"
+
+
 app = FastAPI()
 
 # MongoDB configuration
